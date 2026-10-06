@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { ClientTestDefinition } from '@/types/test';
+import { buildSubmissionFromAnswers, saveToLocalStorage } from '@/lib/submissionHelper';
 import {
   ArrowLeft,
   ArrowRight,
@@ -77,22 +78,14 @@ export default function TestRunner({ test }: TestRunnerProps) {
     setError(null);
 
     try {
-      const response = await fetch('/api/submissions', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          testId: test.id,
-          answers,
-        }),
-      });
-
-      const data = await response.json();
-      if (!response.ok) {
-        throw new Error(data.error || 'Ошибка при сохранении результатов');
+      const result = buildSubmissionFromAnswers(test.id, answers);
+      if (!result) {
+        throw new Error('Ошибка при расчете результатов теста');
       }
 
-      // Route to the client results screen with shareToken
-      router.push(`/results/${data.shareToken}`);
+      saveToLocalStorage(result.submission, result.encodedPayload);
+
+      router.push(`/results/?token=${result.submission.shareToken}&d=${result.encodedPayload}`);
     } catch (err: any) {
       console.error(err);
       setError(err.message || 'Произошла непредвиденная ошибка');

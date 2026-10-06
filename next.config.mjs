@@ -1,8 +1,13 @@
 /** @type {import('next').NextConfig} */
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
+
 const nextConfig = {
   reactStrictMode: true,
-  // Node native modules like node:sqlite
-  serverExternalPackages: ['node:sqlite'],
+  output: 'export',
+  basePath: basePath,
+  images: {
+    unoptimized: true,
+  },
 };
 
 export default nextConfig;

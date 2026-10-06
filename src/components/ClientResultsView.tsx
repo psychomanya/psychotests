@@ -17,11 +17,14 @@ import {
   Trash2,
 } from 'lucide-react';
 
+import { removeFromLocalStorage } from '@/lib/submissionHelper';
+
 interface ClientResultsViewProps {
   submission: SavedSubmission;
+  encodedPayload?: string;
 }
 
-export default function ClientResultsView({ submission }: ClientResultsViewProps) {
+export default function ClientResultsView({ submission, encodedPayload }: ClientResultsViewProps) {
   const router = useRouter();
   const [copied, setCopied] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -29,9 +32,11 @@ export default function ClientResultsView({ submission }: ClientResultsViewProps
   // Formulate full psychologist report URL
   const getShareUrl = () => {
     if (typeof window !== 'undefined') {
-      return `${window.location.origin}/report/${submission.shareToken}`;
+      const base = window.location.origin + (process.env.NEXT_PUBLIC_BASE_PATH || '');
+      const param = encodedPayload ? `d=${encodedPayload}` : `token=${submission.shareToken}`;
+      return `${base}/report/?${param}`;
     }
-    return `/report/${submission.shareToken}`;
+    return `/report/?token=${submission.shareToken}`;
   };
 
   const handleCopyLink = async () => {
@@ -44,32 +49,19 @@ export default function ClientResultsView({ submission }: ClientResultsViewProps
     }
   };
 
-  const handleDelete = async () => {
+  const handleDelete = () => {
     if (
       !window.confirm(
-        'Вы уверены, что хотите безвозвратно удалить эти результаты из базы прямо сейчас? Ссылка для психолога станет недействительной.'
+        'Вы уверены, что хотите удалить эти результаты? Они будут немедленно стерты из памяти браузера.'
       )
     ) {
       return;
     }
 
     setIsDeleting(true);
-    try {
-      const res = await fetch(`/api/submissions?token=${submission.shareToken}`, {
-        method: 'DELETE',
-      });
-      if (res.ok) {
-        alert('Результаты успешно удалены из базы данных.');
-        router.push('/');
-      } else {
-        alert('Не удалось удалить запись.');
-      }
-    } catch (err) {
-      console.error(err);
-      alert('Ошибка при удалении');
-    } finally {
-      setIsDeleting(false);
-    }
+    removeFromLocalStorage(submission.shareToken);
+    alert('Результаты успешно удалены.');
+    router.push('/');
   };
 
   const expirationDateFormatted = new Date(submission.expiresAt).toLocaleDateString(
@@ -251,7 +243,7 @@ export default function ClientResultsView({ submission }: ClientResultsViewProps
             </button>
 
             <Link
-              href={`/report/${submission.shareToken}`}
+              href={getShareUrl()}
               target="_blank"
               className="inline-flex items-center justify-center gap-1.5 px-4 py-3.5 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] text-slate-200 border border-white/[0.1] text-xs sm:text-sm font-medium transition-colors"
             >

@@ -1,6 +1,10 @@
 import { notFound } from 'next/navigation';
-import { getTestById } from '@/data/tests';
+import { getTestById, allTests } from '@/data/tests';
 import TestRunner from '@/components/TestRunner';
+
+export function generateStaticParams() {
+  return allTests.map((t) => ({ id: t.id }));
+}
 
 interface TestPageProps {
   params: Promise<{ id: string }>;
