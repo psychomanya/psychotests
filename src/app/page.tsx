@@ -2,6 +2,15 @@ import Link from 'next/link';
 import { allTests } from '@/data/tests';
 import { Clock, HelpCircle, ArrowRight } from 'lucide-react';
 
+function getPluralTests(count: number): string {
+  const mod10 = count % 10;
+  const mod100 = count % 100;
+  if (mod100 >= 11 && mod100 <= 19) return `${count} методик`;
+  if (mod10 === 1) return `${count} методика`;
+  if (mod10 >= 2 && mod10 <= 4) return `${count} методики`;
+  return `${count} методик`;
+}
+
 export default function HomePage() {
   return (
     <div className="py-12 sm:py-20 px-4 sm:px-6 max-w-6xl mx-auto">
@@ -19,13 +28,13 @@ export default function HomePage() {
       </div>
 
       {/* Tests Catalog Grid */}
-      <section id="catalog" className="mb-20 scroll-mt-24">
+      <section id="catalog" className="mb-12 scroll-mt-24">
         <div className="flex items-center justify-between mb-8">
           <div>
             <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-white flex items-center gap-2">
               <span>Доступные методики</span>
               <span className="text-xs font-normal text-purple-400 bg-purple-500/10 px-2.5 py-1 rounded-full border border-purple-500/20">
-                {allTests.length} теста
+                {getPluralTests(allTests.length)}
               </span>
             </h2>
             <p className="text-sm text-slate-400 mt-1">
@@ -34,7 +43,7 @@ export default function HomePage() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {allTests.map((test) => (
             <div
               key={test.id}
@@ -81,55 +90,6 @@ export default function HomePage() {
           ))}
         </div>
       </section>
-
-      {/* How it works section */}
-      <div className="glass-card rounded-3xl p-8 sm:p-12 border border-white/[0.08] relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-purple-600/10 rounded-full blur-3xl pointer-events-none" />
-
-        <div className="max-w-2xl mb-10">
-          <span className="text-xs font-semibold text-purple-400 tracking-wider uppercase mb-2 block font-mono">
-            Рабочий процесс
-          </span>
-          <h2 className="text-2xl sm:text-3xl font-bold text-white mb-3">
-            Как происходит взаимодействие со специалистом?
-          </h2>
-          <p className="text-slate-400 text-sm sm:text-base">
-            Полное сохранение приватности при максимальной пользе для вашего психологического процесса.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 relative z-10">
-          <div className="bg-white/[0.02] p-6 rounded-2xl border border-white/[0.06]">
-            <div className="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-400 flex items-center justify-center font-bold text-base mb-4">
-              1
-            </div>
-            <h4 className="font-semibold text-white mb-2">Прохождение в комфорте</h4>
-            <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
-              Карточный режим с фокусом на одном вопросе, возможностью вернуться и точным прогрессом.
-            </p>
-          </div>
-
-          <div className="bg-white/[0.02] p-6 rounded-2xl border border-white/[0.06]">
-            <div className="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/20 text-purple-400 flex items-center justify-center font-bold text-base mb-4">
-              2
-            </div>
-            <h4 className="font-semibold text-white mb-2">Понятный результат</h4>
-            <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
-              Вы мгновенно видите свой уровень по шкале, интерпретацию и пояснения без пугающих медицинских терминов.
-            </p>
-          </div>
-
-          <div className="bg-white/[0.02] p-6 rounded-2xl border border-white/[0.06]">
-            <div className="w-10 h-10 rounded-xl bg-pink-500/10 border border-pink-500/20 text-pink-400 flex items-center justify-center font-bold text-base mb-4">
-              3
-            </div>
-            <h4 className="font-semibold text-white mb-2">Сырые ответы психологу</h4>
-            <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
-              Одной кнопкой копируете секретную ссылку. Психолог увидит точный выбор по каждому пункту, шкалы и важные маркеры.
-            </p>
-          </div>
-        </div>
-      </div>
     </div>
   );
 }

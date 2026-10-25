@@ -8,7 +8,7 @@ import HeaderCatalogButton from '@/components/HeaderCatalogButton';
 export const metadata: Metadata = {
   title: 'Психологические тесты | Валидированные методики и отчет для специалиста',
   description:
-    'Пройдите клинические опросники (BDI-II, BAI, MBI) анонимно и поделитесь сырыми ответами со своим психологом.',
+    'Пройдите клинические опросники (BDI-II, BAI, HADS, MBI, YSQ-S3R) анонимно и поделитесь сырыми ответами со своим психологом.',
 };
 
 export default function RootLayout({
