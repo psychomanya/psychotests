@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import Link from 'next/link';
-import { HeartHandshake } from 'lucide-react';
 import BrainLogo from '@/components/BrainLogo';
 import HeaderCatalogButton from '@/components/HeaderCatalogButton';
 
@@ -51,10 +50,6 @@ export default function RootLayout({
         {/* Footer */}
         <footer className="relative z-10 border-t border-white/[0.06] bg-[#08090E]/80 backdrop-blur-md py-8 text-xs text-slate-400 no-print">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
-            <div className="flex items-center gap-2 text-slate-400">
-              <HeartHandshake className="w-4 h-4 text-rose-400" />
-              <span>Создано для осознанной заботы о ментальном здоровье и удобного взаимодействия с психологом.</span>
-            </div>
             <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 text-slate-400 text-[11px]">
               <span>Не является медицинским диагнозом.</span>
               <span className="hidden sm:inline text-white/20">•</span>

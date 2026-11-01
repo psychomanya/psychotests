@@ -7,15 +7,20 @@ const env = { ...process.env, HTTP_PROXY: '', HTTPS_PROXY: '', NO_PROXY: '*' };
 const git = 'C:\\Users\\marym\\AppData\\Local\\Programs\\Git\\cmd\\git.exe';
 
 console.log('Deploying from:', cwd);
-execSync(`"${git}" commit -m "deploy: update recommendation wording to рекомендуется"`, { cwd, env, stdio: 'inherit' });
-try {
-  execSync(`"${git}" remote add origin https://github.com/psychomanya/psychotests.git`, { cwd, env, stdio: 'inherit' });
-} catch (e) {
-  // Remote might already exist
+const gitDir = path.join(cwd, '.git');
+if (fs.existsSync(gitDir)) {
+  fs.rmSync(gitDir, { recursive: true, force: true });
 }
+
+execSync(`"${git}" init`, { cwd, env, stdio: 'inherit' });
+execSync(`"${git}" config user.name psychomanya`, { cwd, env, stdio: 'inherit' });
+execSync(`"${git}" config user.email psychomanya@users.noreply.github.com`, { cwd, env, stdio: 'inherit' });
+execSync(`"${git}" checkout -b gh-pages`, { cwd, env, stdio: 'inherit' });
+execSync(`"${git}" add -A`, { cwd, env, stdio: 'inherit' });
+execSync(`"${git}" commit -m "deploy: update HADS question 14 and remove footer care note"`, { cwd, env, stdio: 'inherit' });
+execSync(`"${git}" remote add origin https://github.com/psychomanya/psychotests.git`, { cwd, env, stdio: 'inherit' });
 execSync(`"${git}" push origin gh-pages --force`, { cwd, env, stdio: 'inherit' });
 
-const gitDir = path.join(cwd, '.git');
 if (fs.existsSync(gitDir)) {
   fs.rmSync(gitDir, { recursive: true, force: true });
 }
