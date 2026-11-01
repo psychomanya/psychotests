@@ -188,15 +188,11 @@ export default function TestRunner({ test }: TestRunnerProps) {
       {/* Top Header / Progress */}
       <div className="mb-6">
         <div className="flex items-center justify-between gap-4 mb-3">
-          <button
-            onClick={handlePrev}
-            className="inline-flex items-center gap-1.5 text-xs text-slate-400 hover:text-white transition-colors py-1 px-2 rounded-lg hover:bg-white/[0.05]"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            <span>{currentIndex === 0 ? 'К описанию' : 'Назад'}</span>
-          </button>
+          <span className="text-xs font-medium text-slate-400 truncate max-w-[220px] sm:max-w-none">
+            {test.shortTitle}
+          </span>
 
-          <div className="text-right">
+          <div className="text-right shrink-0">
             <span className="text-xs font-medium text-slate-300">
               Вопрос {currentIndex + 1}{' '}
               <span className="text-slate-400">из {totalQuestions}</span>
@@ -273,44 +269,57 @@ export default function TestRunner({ test }: TestRunnerProps) {
           )}
 
           {/* Footer Navigation */}
-          <div className="flex items-center justify-between pt-4 border-t border-white/[0.06]">
-            <span className="text-[11px] text-slate-400 hidden sm:inline">
-              Подсказка: нажимайте клавиши 1-{currentQuestion.options.length} на клавиатуре
-            </span>
+          <div className="pt-4 border-t border-white/[0.06]">
+            <div className="flex items-center justify-between gap-4">
+              <button
+                onClick={handlePrev}
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all bg-white/[0.06] hover:bg-white/[0.12] text-slate-300 hover:text-white border border-white/[0.1] active:scale-95"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                <span>{currentIndex === 0 ? 'К описанию' : 'Назад'}</span>
+              </button>
 
-            <div className="flex items-center gap-3 ml-auto">
-              {currentIndex < totalQuestions - 1 ? (
-                <button
-                  onClick={handleNext}
-                  disabled={!isCurrentAnswered}
-                  className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all ${
-                    isCurrentAnswered
-                      ? 'bg-white/[0.1] hover:bg-white/[0.18] text-white border border-white/[0.15]'
-                      : 'bg-white/[0.02] text-slate-500 border border-white/[0.04] cursor-not-allowed'
-                  }`}
-                >
-                  <span>Далее</span>
-                  <ArrowRight className="w-4 h-4" />
-                </button>
-              ) : (
-                <button
-                  onClick={handleSubmit}
-                  disabled={isSubmitting || !isCurrentAnswered}
-                  className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 hover:from-blue-500 hover:via-purple-500 hover:to-pink-500 text-white text-xs sm:text-sm font-bold shadow-[0_0_20px_rgba(139,92,246,0.4)] transition-all active:scale-95 disabled:opacity-50"
-                >
-                  {isSubmitting ? (
-                    <>
-                      <Loader2 className="w-4 h-4 animate-spin" />
-                      <span>Подсчет результатов...</span>
-                    </>
-                  ) : (
-                    <>
-                      <CheckCircle className="w-4 h-4" />
-                      <span>Завершить тест</span>
-                    </>
-                  )}
-                </button>
-              )}
+              <div className="flex items-center gap-3">
+                {currentIndex < totalQuestions - 1 ? (
+                  <button
+                    onClick={handleNext}
+                    disabled={!isCurrentAnswered}
+                    className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all ${
+                      isCurrentAnswered
+                        ? 'bg-white/[0.1] hover:bg-white/[0.18] text-white border border-white/[0.15] active:scale-95 shadow-sm'
+                        : 'bg-white/[0.02] text-slate-500 border border-white/[0.04] cursor-not-allowed'
+                    }`}
+                  >
+                    <span>Далее</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </button>
+                ) : (
+                  <button
+                    onClick={handleSubmit}
+                    disabled={isSubmitting || !isCurrentAnswered}
+                    className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 hover:from-blue-500 hover:via-purple-500 hover:to-pink-500 text-white text-xs sm:text-sm font-bold shadow-[0_0_20px_rgba(139,92,246,0.4)] transition-all active:scale-95 disabled:opacity-50"
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        <span>Подсчет результатов...</span>
+                      </>
+                    ) : (
+                      <>
+                        <CheckCircle className="w-4 h-4" />
+                        <span>Завершить тест</span>
+                      </>
+                    )}
+                  </button>
+                )}
+              </div>
+            </div>
+
+            {/* Keyboard hint below buttons */}
+            <div className="text-center mt-3 pt-1">
+              <span className="text-[11px] text-slate-400/80">
+                Подсказка: нажимайте клавиши 1–{currentQuestion.options.length} или стрелки на клавиатуре
+              </span>
             </div>
           </div>
         </div>
