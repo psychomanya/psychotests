@@ -34,7 +34,7 @@ export const hadsTest: TestDefinition = {
   id: 'hads',
   title: 'Госпитальная шкала тревоги и депрессии (HADS)',
   shortTitle: 'Тревога и депрессия (HADS)',
-  subtitle: 'Hospital Anxiety and Depression Scale (адаптация М.Ю. Дробижева)',
+  subtitle: '',
   description:
     'Клинический экспресс-скрининг для дифференцированной оценки симптомов тревоги и депрессии.',
   durationMinutes: 4,

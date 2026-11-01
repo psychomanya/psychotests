@@ -142,9 +142,11 @@ export default function TestRunner({ test }: TestRunnerProps) {
           <h1 className="text-2xl sm:text-3xl font-extrabold text-white mb-2 tracking-tight">
             {test.title}
           </h1>
-          <p className="text-xs sm:text-sm text-purple-400 font-mono mb-4">
-            {test.subtitle}
-          </p>
+          {test.subtitle && (
+            <p className="text-xs sm:text-sm text-purple-400 font-mono mb-4">
+              {test.subtitle}
+            </p>
+          )}
 
           <p className="text-slate-300 text-sm sm:text-base leading-relaxed mb-6">
             {test.description}

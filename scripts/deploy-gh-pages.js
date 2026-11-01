@@ -17,7 +17,7 @@ execSync(`"${git}" config user.name psychomanya`, { cwd, env, stdio: 'inherit' }
 execSync(`"${git}" config user.email psychomanya@users.noreply.github.com`, { cwd, env, stdio: 'inherit' });
 execSync(`"${git}" checkout -b gh-pages`, { cwd, env, stdio: 'inherit' });
 execSync(`"${git}" add -A`, { cwd, env, stdio: 'inherit' });
-execSync(`"${git}" commit -m "deploy: update HADS question 14 and remove footer care note"`, { cwd, env, stdio: 'inherit' });
+execSync(`"${git}" commit -m "deploy: remove HADS subtitle"`, { cwd, env, stdio: 'inherit' });
 execSync(`"${git}" remote add origin https://github.com/psychomanya/psychotests.git`, { cwd, env, stdio: 'inherit' });
 execSync(`"${git}" push origin gh-pages --force`, { cwd, env, stdio: 'inherit' });
 

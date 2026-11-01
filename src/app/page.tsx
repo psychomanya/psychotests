@@ -63,9 +63,11 @@ export default function HomePage() {
                 <h3 className="text-lg font-bold text-white group-hover:text-purple-300 transition-colors mb-1.5">
                   {test.title}
                 </h3>
-                <p className="text-xs text-purple-400 font-mono mb-3">
-                  {test.subtitle}
-                </p>
+                {test.subtitle && (
+                  <p className="text-xs text-purple-400 font-mono mb-3">
+                    {test.subtitle}
+                  </p>
+                )}
 
                 <p className="text-slate-300 text-xs sm:text-sm mb-6 leading-relaxed">
                   {test.description}
